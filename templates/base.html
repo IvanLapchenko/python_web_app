@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Title</title>
+    {% endif %}
+    <link rel="stylesheet" href="static\style.css">
+</head>
+<body>
+    <div>
+        <h1>Hello!</h1>
+        {% block first%}
+        {%endblock%}
+    </div>
+
+    <div>
+        <h1> Welcome to our website! <a href="static/index.html">Here we are!</a> </h1>
+        {% block content %} {% endblock %}
+    </div>
+
+
+</body>
+</html>
