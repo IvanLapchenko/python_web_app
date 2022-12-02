@@ -10,15 +10,15 @@ def index():
     user = {"username": "Nik", "age": "40"}
     posts = [
         {
-            "author": "Sarah", "age": "20",
+            "author": {"username": "Sarah", "age": "20"},
             "body": "I like Avengers"
         },
         {
-            "author": "Lora", "age": "30",
+            "author": {"username": "Lora", "age": "30"},
             "body": "I like Batman"
         },
         {
-            "author": "John", "age": "25",
+            "author": {"username": "John", "age": "25"},
             "body": "I like both"
         }
     ]
