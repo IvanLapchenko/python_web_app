@@ -1,10 +1,12 @@
-from app import app
-from flask import render_template
-
+from werkzeug.urls import url_parse
+from app import app, db
+from flask import render_template, flash, redirect, url_for, request
+# from flask_login import current_user, login_user, logout_user, login_required
+# from app.forms import LoginForm, RegistrationForm
+from app.models import User, Profile
 
 
 @app.route("/index")
-@app.route("/static/index.html")
 @app.route("/")
 def index():
     user = {"username": "Nik", "age": "40"}
@@ -24,39 +26,53 @@ def index():
     ]
     return render_template("index.html", title="Home", user=user, posts=posts)
 
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     if current_user.is_authenticated:
+#         redirect(url_for("index"))
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user = User.querry.filter_by(username=form.username.data).first()
+#         if user is None or not user.check_password(form.password.data):
+#             flash("Invalid password or username")
+#             redirect(url_for("login"))
+#         login_user(user, remember=form.remember_me.data)
+#         next_page = request.args.get("next")
+#         if not next_page or url_parse(next_page).netloc != "":
+#             next_page = url_for("index")
+#         return redirect(next_page)
+#     return render_template("login.html", title="Sign in", form=form)
 
 
+# @app.route("/logout")
+# def logout():
+#     logout_user()
+#     return redirect(url_for("index"))
 
 
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         flash("Congratulations, you are now a registered user!")
+#         return redirect(url_for("login"))
+#     return render_template("register.html", title="Register", form=form)
 
 
-# @app.route("/static/first.html")
-# def func():
-#     return render_template("first.html")
-#
-#
-# @app.route("/static/second.html")
-# def func1():
-#     return render_template("second.html")
-#
-# @app.route("/name")
-# @app.route("/contacts")
-# def contacts():
-#     return "This is contacts page"
-#
-#
-# @app.route("/yellow")
-# @app.route("/blue")
-# def contacts1():
-#     return "This yellow and blue page"
-#
-#
-# @app.route("/services")
-# def services():
-#     return "This is services page"
-#
-#
-# @app.route("/services/<first>/<second>")
-# def detailed_services(first, second):
-#     summ = str(int(first) + int(second))
-#     return summ
+@app.route("/fill", methods=["GET", "POST"])
+def fill():
+    if request.method == "POST":
+        nickname = request.form["nickname"]
+        description = request.form["description"]
+
+        profile_fill = Profile(nickname=nickname, description=description)
+
+        try:
+            db.session.add(profile_fill)
+            db.session.commit()
+            return redirect(url_for("index"))
+        except Exception as e:
+            print(e)
+            return "Error"
+    else:
+        return render_template("prof_fill.html")

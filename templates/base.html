@@ -8,7 +8,7 @@
     {% else %}
     <title>Title</title>
     {% endif %}
-    <link rel="stylesheet" href="static\style.css">
+    <link rel="stylesheet" href="/app/static/styles.css">
 </head>
 <body>
     <div>
@@ -18,7 +18,10 @@
     </div>
 
     <div>
-        <h1> Welcome to our website! <a href="static/index.html">Here we are!</a> </h1>
+        <h1> Welcome to our website!
+            <a href="{{ url_for('index') }}">Here we are!</a>
+            <a href="{{ url_for('fill') }}">Fill</a>
+        </h1>
         {% block content %} {% endblock %}
     </div>
 
